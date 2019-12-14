@@ -1,23 +1,11 @@
 import React, { Component } from 'react'
-import {
-  TextField,
-  InputAdornment,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Grow
-} from '@material-ui/core'
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend
-} from 'recharts'
+import { MenuItem } from '@material-ui/core'
+
 import './App.scss'
+import History from './components/History'
+import Currency from './components/Currency'
+import Value from './components/Value'
+import Calculation from './components/Calculation'
 
 const currencies = 'http://api.nbp.pl/api/exchangerates/tables/a/?format=json'
 
@@ -26,7 +14,8 @@ export default class App extends Component {
     data: null,
     value: '',
     currency: '',
-    historyData: []
+    historyData: [].sort(),
+    isDisabled: false
   }
 
   componentDidMount() {
@@ -49,7 +38,8 @@ export default class App extends Component {
     this.setState({
       [e.target.name]: await e.target.value,
       symbol: index.key,
-      historyData: await []
+      historyData: [],
+      isDisabled: false
     })
     this.fetchData()
   }
@@ -57,22 +47,45 @@ export default class App extends Component {
   fetchData = () => {
     const { symbol } = this.state
     const urls = [
+      `http://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2009-04-02/?format=json`,
+      `http://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2010-04-02/?format=json`,
+      `http://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2011-04-04/?format=json`,
       `http://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2012-04-04/?format=json`,
+      `http://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2013-04-04/?format=json`,
       `http://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2014-04-04/?format=json`,
+      `http://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2015-02-04/?format=json`,
       `http://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2016-04-04/?format=json`,
+      `http://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2017-04-04/?format=json`,
+      `http://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2018-04-04/?format=json`,
       `http://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2019-04-04/?format=json`
     ]
-
+    setTimeout(() => {
+      this.setState({
+        isDisabled: true
+      })
+    }, 1000)
     const requests = urls.map(url =>
       fetch(url)
         .then(response => response.json())
-        .then(data => this.state.historyData.push(data.rates[0]))
+        .then(data =>
+          this.state.historyData.push({
+            effectiveDate: data.rates[0].effectiveDate,
+            [this.state.symbol]: data.rates[0].mid
+          })
+        )
     )
     return requests
   }
 
   render() {
-    const { data, value, currency, symbol } = this.state
+    const {
+      data,
+      value,
+      currency,
+      symbol,
+      historyData,
+      isDisabled
+    } = this.state
     const list =
       data &&
       data.map(item => (
@@ -83,64 +96,26 @@ export default class App extends Component {
 
     return (
       <React.Fragment>
-        {value && currency ? (
-          <Grow timeout={1500} in>
-            <div style={{ textAlign: 'center' }} className='element'>
-              <LineChart width={550} height={300} data={this.state.historyData}>
-                <XAxis dataKey='effectiveDate' />
-                <YAxis />
-                <CartesianGrid stroke='#eee' strokeDasharray='5 5' />
-                <Tooltip />
-                <Line
-                  type='monotone'
-                  dataKey='mid'
-                  stroke='#8884d8'
-                  activeDot={{ r: 8 }}
-                />
-              </LineChart>
-            </div>
-          </Grow>
+        {isDisabled && currency ? (
+          <History data={historyData} symbol={symbol} />
         ) : (
           false
         )}
         <div className='container'>
           <div className='element'>
-            <TextField
-              style={{ width: 250 }}
-              label='Value'
-              name='value'
-              type='number'
-              InputProps={{
-                endAdornment: <InputAdornment position='end'>zł</InputAdornment>
-              }}
-              value={value}
-              onChange={this.handleChangeValue}
-            ></TextField>
+            <Value value={value} onChange={this.handleChangeValue} />
           </div>
 
           <div className='element'>
-            <FormControl style={{ minWidth: 250 }}>
-              <InputLabel>Currency</InputLabel>
-              <Select
-                autoWidth
-                name='currency'
-                value={currency}
-                onChange={this.handleChangeCurrency}
-              >
-                {list}
-              </Select>
-            </FormControl>
+            <Currency
+              onChange={this.handleChangeCurrency}
+              currency={currency}
+              list={list}
+            />
           </div>
         </div>
         {value && currency ? (
-          <Grow timeout={1500} in>
-            <div
-              style={{ fontSize: 50, textAlign: 'center' }}
-              className='element'
-            >
-              {`${(value / currency).toFixed(2)} ${symbol}`}
-            </div>
-          </Grow>
+          <Calculation value={value} currency={currency} symbol={symbol} />
         ) : (
           false
         )}
