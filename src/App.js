@@ -96,16 +96,18 @@ export default class App extends Component {
 
     return (
       <React.Fragment>
+        {/* History */}
         {isDisabled && currency ? (
           <History data={historyData} symbol={symbol} />
         ) : (
           false
         )}
         <div className='container'>
+          {/* Value */}
           <div className='element'>
             <Value value={value} onChange={this.handleChangeValue} />
           </div>
-
+          {/* Currency */}
           <div className='element'>
             <Currency
               onChange={this.handleChangeCurrency}
@@ -114,6 +116,7 @@ export default class App extends Component {
             />
           </div>
         </div>
+        {/* Calculation */}
         {value && currency ? (
           <Calculation value={value} currency={currency} symbol={symbol} />
         ) : (
