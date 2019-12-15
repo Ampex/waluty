@@ -57,22 +57,23 @@ export default class App extends Component {
       `http://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2016-04-04/?format=json`,
       `http://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2017-04-04/?format=json`,
       `http://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2018-04-04/?format=json`,
-      `http://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2019-04-04/?format=json`
+      `http://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2019-12-13/?format=json`
     ]
     setTimeout(() => {
       this.setState({
         isDisabled: true
       })
     }, 1000)
-    const requests = urls.map(url =>
-      fetch(url)
-        .then(response => response.json())
-        .then(data =>
-          this.state.historyData.push({
-            effectiveDate: data.rates[0].effectiveDate,
-            [this.state.symbol]: data.rates[0].mid
-          })
-        )
+    const requests = urls.map(
+      async url =>
+        await fetch(url)
+          .then(response => response.json())
+          .then(data =>
+            this.state.historyData.push({
+              effectiveDate: data.rates[0].effectiveDate,
+              [this.state.symbol]: data.rates[0].mid
+            })
+          )
     )
     return requests
   }

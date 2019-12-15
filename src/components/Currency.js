@@ -4,7 +4,7 @@ import { Select, FormControl, InputLabel } from '@material-ui/core'
 const Currency = props => {
   return (
     <FormControl style={{ minWidth: 250 }}>
-      <InputLabel>Currency</InputLabel>
+      <InputLabel>Waluta</InputLabel>
       <Select
         autoWidth
         name='currency'

@@ -1,12 +1,11 @@
 import React from 'react'
-import Grow from '@material-ui/core/Grow'
 import { TextField, InputAdornment } from '@material-ui/core'
 
 const Value = props => {
   return (
     <TextField
       style={{ width: 250 }}
-      label='Value'
+      label='Wartość'
       name='value'
       type='number'
       InputProps={{
