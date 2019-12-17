@@ -1,21 +1,21 @@
 {
   "files": {
     "main.css": "/waluty/static/css/main.86d0c63a.chunk.css",
-    "main.js": "/waluty/static/js/main.24e16592.chunk.js",
-    "main.js.map": "/waluty/static/js/main.24e16592.chunk.js.map",
+    "main.js": "/waluty/static/js/main.0482ac56.chunk.js",
+    "main.js.map": "/waluty/static/js/main.0482ac56.chunk.js.map",
     "runtime-main.js": "/waluty/static/js/runtime-main.819ab67e.js",
     "runtime-main.js.map": "/waluty/static/js/runtime-main.819ab67e.js.map",
-    "static/js/2.7c2f1aa1.chunk.js": "/waluty/static/js/2.7c2f1aa1.chunk.js",
-    "static/js/2.7c2f1aa1.chunk.js.map": "/waluty/static/js/2.7c2f1aa1.chunk.js.map",
+    "static/js/2.d4cd864c.chunk.js": "/waluty/static/js/2.d4cd864c.chunk.js",
+    "static/js/2.d4cd864c.chunk.js.map": "/waluty/static/js/2.d4cd864c.chunk.js.map",
     "index.html": "/waluty/index.html",
-    "precache-manifest.13d4530967b4bd50b2a5f747475f6e2e.js": "/waluty/precache-manifest.13d4530967b4bd50b2a5f747475f6e2e.js",
+    "precache-manifest.fb27618144e25d625e4a05f322bad7d2.js": "/waluty/precache-manifest.fb27618144e25d625e4a05f322bad7d2.js",
     "service-worker.js": "/waluty/service-worker.js",
     "static/css/main.86d0c63a.chunk.css.map": "/waluty/static/css/main.86d0c63a.chunk.css.map"
   },
   "entrypoints": [
     "static/js/runtime-main.819ab67e.js",
-    "static/js/2.7c2f1aa1.chunk.js",
+    "static/js/2.d4cd864c.chunk.js",
     "static/css/main.86d0c63a.chunk.css",
-    "static/js/main.24e16592.chunk.js"
+    "static/js/main.0482ac56.chunk.js"
   ]
 }

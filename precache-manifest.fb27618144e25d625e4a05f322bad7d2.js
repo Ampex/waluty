@@ -1,19 +1,19 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "2b1da4c5994407f3dbbc5c1bc403a407",
+    "revision": "5e7d6c61eab2a7c547faf447a08e9dee",
     "url": "/waluty/index.html"
   },
   {
-    "revision": "869d3d08ffb1ad2b6d2f",
+    "revision": "2d715b0045195381006a",
     "url": "/waluty/static/css/main.86d0c63a.chunk.css"
   },
   {
-    "revision": "9127b3fb46506e639fcc",
-    "url": "/waluty/static/js/2.7c2f1aa1.chunk.js"
+    "revision": "2562756c136b592512b9",
+    "url": "/waluty/static/js/2.d4cd864c.chunk.js"
   },
   {
-    "revision": "869d3d08ffb1ad2b6d2f",
-    "url": "/waluty/static/js/main.24e16592.chunk.js"
+    "revision": "2d715b0045195381006a",
+    "url": "/waluty/static/js/main.0482ac56.chunk.js"
   },
   {
     "revision": "132205b6c36cc75ce53a",
