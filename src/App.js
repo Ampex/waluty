@@ -114,7 +114,14 @@ export default class App extends Component {
             </MobileView>
           </React.Fragment>
         ) : isLoaded && currency ? (
-          <Skeleton style={{ margin: 15 }} width={630} height={418.18} />
+          <React.Fragment>
+            <BrowserView>
+              <Skeleton style={{ margin: 15 }} width={630} height={418.18} />
+            </BrowserView>
+            <MobileView>
+              <Skeleton style={{ margin: 15 }} width={250} height={418.18} />
+            </MobileView>
+          </React.Fragment>
         ) : (
           false
         )}
