@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { MenuItem } from '@material-ui/core'
-
+import MenuItem from '@material-ui/core/MenuItem'
+import Skeleton from '@material-ui/lab/Skeleton'
 import { BrowserView, MobileView } from 'react-device-detect'
 
 import './App.scss'
@@ -16,8 +16,9 @@ export default class App extends Component {
     data: null,
     value: '',
     currency: '',
-    historyData: [].sort(),
-    isDisabled: false
+    historyData: [],
+    isDisabled: false,
+    isLoaded: false
   }
 
   componentDidMount() {
@@ -41,12 +42,12 @@ export default class App extends Component {
       [e.target.name]: await e.target.value,
       symbol: index.key,
       historyData: [],
-      isDisabled: false
+      isDisabled: true
     })
     this.fetchData()
   }
 
-  fetchData = () => {
+  fetchData() {
     const { symbol } = this.state
     const urls = [
       `https://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2009-04-02/?format=json`,
@@ -61,21 +62,23 @@ export default class App extends Component {
       `https://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2018-04-04/?format=json`,
       `https://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2019-12-13/?format=json`
     ]
+
     setTimeout(() => {
       this.setState({
-        isDisabled: true
+        isDisabled: false,
+        isLoaded: true
       })
     }, 1000)
-    const requests = urls.map(
-      async url =>
-        await fetch(url)
-          .then(response => response.json())
-          .then(data =>
-            this.state.historyData.push({
-              effectiveDate: data.rates[0].effectiveDate,
-              [this.state.symbol]: data.rates[0].mid
-            })
-          )
+
+    const requests = urls.map(url =>
+      fetch(url)
+        .then(response => response.json())
+        .then(data =>
+          this.state.historyData.push({
+            effectiveDate: data.rates[0].effectiveDate,
+            [this.state.symbol]: data.rates[0].mid
+          })
+        )
     )
     return requests
   }
@@ -87,7 +90,8 @@ export default class App extends Component {
       currency,
       symbol,
       historyData,
-      isDisabled
+      isDisabled,
+      isLoaded
     } = this.state
     const list =
       data &&
@@ -100,7 +104,7 @@ export default class App extends Component {
     return (
       <React.Fragment>
         {/* History */}
-        {isDisabled && currency ? (
+        {!isDisabled && currency ? (
           <React.Fragment>
             <BrowserView>
               <History width={550} data={historyData} symbol={symbol} />
@@ -109,6 +113,8 @@ export default class App extends Component {
               <History width={250} data={historyData} symbol={symbol} />
             </MobileView>
           </React.Fragment>
+        ) : isLoaded && currency ? (
+          <Skeleton style={{ margin: 15 }} width={630} height={418.18} />
         ) : (
           false
         )}
@@ -120,6 +126,7 @@ export default class App extends Component {
           {/* Currency */}
           <div className='element'>
             <Currency
+              disabled={isDisabled}
               onChange={this.handleChangeCurrency}
               currency={currency}
               list={list}

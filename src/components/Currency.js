@@ -1,9 +1,14 @@
 import React from 'react'
-import { Select, FormControl, InputLabel } from '@material-ui/core'
+import {
+  Select,
+  FormControl,
+  InputLabel,
+  CircularProgress
+} from '@material-ui/core'
 
 const Currency = props => {
   return (
-    <FormControl style={{ minWidth: 250 }}>
+    <FormControl disabled={props.disabled} style={{ minWidth: 250 }}>
       <InputLabel>Waluta</InputLabel>
       <Select
         autoWidth
@@ -13,6 +18,12 @@ const Currency = props => {
       >
         {props.list}
       </Select>
+      {props.disabled && (
+        <CircularProgress
+          size={30}
+          style={{ position: 'absolute', left: '44%', top: '25%' }}
+        />
+      )}
     </FormControl>
   )
 }
