@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
 import { MenuItem } from '@material-ui/core'
 
+import { BrowserView, MobileView } from 'react-device-detect'
+
 import './App.scss'
 import History from './components/History'
 import Currency from './components/Currency'
 import Value from './components/Value'
 import Calculation from './components/Calculation'
 
-const currencies = 'http://api.nbp.pl/api/exchangerates/tables/a/?format=json'
+const currencies = 'https://api.nbp.pl/api/exchangerates/tables/a/?format=json'
 
 export default class App extends Component {
   state = {
@@ -47,17 +49,17 @@ export default class App extends Component {
   fetchData = () => {
     const { symbol } = this.state
     const urls = [
-      `http://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2009-04-02/?format=json`,
-      `http://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2010-04-02/?format=json`,
-      `http://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2011-04-04/?format=json`,
-      `http://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2012-04-04/?format=json`,
-      `http://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2013-04-04/?format=json`,
-      `http://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2014-04-04/?format=json`,
-      `http://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2015-02-04/?format=json`,
-      `http://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2016-04-04/?format=json`,
-      `http://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2017-04-04/?format=json`,
-      `http://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2018-04-04/?format=json`,
-      `http://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2019-12-13/?format=json`
+      `https://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2009-04-02/?format=json`,
+      `https://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2010-04-02/?format=json`,
+      `https://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2011-04-04/?format=json`,
+      `https://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2012-04-04/?format=json`,
+      `https://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2013-04-04/?format=json`,
+      `https://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2014-04-04/?format=json`,
+      `https://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2015-02-04/?format=json`,
+      `https://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2016-04-04/?format=json`,
+      `https://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2017-04-04/?format=json`,
+      `https://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2018-04-04/?format=json`,
+      `https://api.nbp.pl/api/exchangerates/rates/a/${symbol}/2019-12-13/?format=json`
     ]
     setTimeout(() => {
       this.setState({
@@ -99,7 +101,14 @@ export default class App extends Component {
       <React.Fragment>
         {/* History */}
         {isDisabled && currency ? (
-          <History data={historyData} symbol={symbol} />
+          <React.Fragment>
+            <BrowserView>
+              <History width={550} data={historyData} symbol={symbol} />
+            </BrowserView>
+            <MobileView>
+              <History width={250} data={historyData} symbol={symbol} />
+            </MobileView>
+          </React.Fragment>
         ) : (
           false
         )}
